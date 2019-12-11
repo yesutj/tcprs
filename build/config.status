@@ -1,2 +1,2 @@
 # This is the command used to configure this build
-./configure --bro-dist=/usr/local/zeek
+./configure
