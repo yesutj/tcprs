@@ -56,6 +56,9 @@ builddir=build
 brodist=`cd ../zeek && pwd`
 installroot="default"
 CMakeCacheEntries=""
+test = 'pwd'
+echo test
+
 
 while [ $# -ne 0 ]; do
     case "$1" in
