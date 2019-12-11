@@ -53,12 +53,9 @@ append_cache_entry () {
 
 # set defaults
 builddir=build
-brodist=`/usr/local/zeek`
+brodist='/home/yesutj/zeek'
 installroot="default"
 CMakeCacheEntries=""
-test = 'pwd'
-echo test
-
 
 while [ $# -ne 0 ]; do
     case "$1" in
