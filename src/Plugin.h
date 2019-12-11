@@ -7,7 +7,7 @@
 #include "tcprs.bif.h"
 
 namespace plugin {
-namespace jswaro_TCPRS {
+namespace yesutj_TCPRS {
 
 bool EnableTCPRS();
 

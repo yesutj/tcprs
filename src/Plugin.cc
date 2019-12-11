@@ -1,9 +1,9 @@
 #include "Plugin.h"
 #include "TCPRS.h"
 
-namespace plugin { namespace jswaro_TCPRS { Plugin plugin; } }
+namespace plugin { namespace yesutj_TCPRS { Plugin plugin; } }
 
-using namespace plugin::jswaro_TCPRS;
+using namespace plugin::yesutj_TCPRS;
 
 static bool use_tcprs_analyzer = false;
 
@@ -12,7 +12,7 @@ plugin::Configuration Plugin::Configure()
 	AddComponent(new ::analyzer::Component("TCPRS", ::analyzer::tcp::TCPRS_Analyzer::Instantiate));
 
 	plugin::Configuration config;
-	config.name = "jswaro::TCPRS";
+	config.name = "yesutj::TCPRS";
 	config.description = "A TCP retransmission and network reordering detection and classification analyzer";
 	config.version.major = 0;
 	config.version.minor = 2;
@@ -43,7 +43,7 @@ void Plugin::HookSetupAnalyzerTree(Connection *conn)
 	tcprs->Init();
 	}
 
-bool plugin::jswaro_TCPRS::EnableTCPRS()
+bool plugin::yesutj_TCPRS::EnableTCPRS()
 	{
 	use_tcprs_analyzer = true;
 	return use_tcprs_analyzer;

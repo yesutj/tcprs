@@ -17,6 +17,8 @@
 
 #include "TCPRS_Endpoint.h"
 #include "TCPRS_Debug.h"
+#include <iostream>
+using namespace std;
 
 #define SEQUENCE_MAX 4294967295ull
 #define STDEV_UNIFORM 0.68
@@ -25,7 +27,10 @@
 using namespace analyzer::tcp;
 
 //Valgrind Safe
-TCPRS_Endpoint::TCPRS_Endpoint(tcp::TCP_Endpoint *e, tcp::TCPRS_Analyzer *a) {
+TCPRS_Endpoint::TCPRS_Endpoint(tcp::TCP_Endpoint *e, tcp::TCPRS_Analyzer *a) 
+{
+
+	cout<< " TCPRS_Endpoint::TCPRS_Endpoint called " << endl;
 	endp = e;
 	analyzer = a;
 
@@ -110,7 +115,11 @@ TCPRS_Endpoint::TCPRS_Endpoint(tcp::TCP_Endpoint *e, tcp::TCPRS_Analyzer *a) {
 
 //Valgrind Safe
 // destruct
-TCPRS_Endpoint::~TCPRS_Endpoint() {
+TCPRS_Endpoint::~TCPRS_Endpoint()
+ {
+
+	 cout<< " TCPRS_Endpoint::~TCPRS_Endpoint called " << endl;
+	
 	loop_over_list(outstandingData, l) {
 		delete outstandingData[l];
 	}
@@ -471,8 +480,7 @@ void TCPRS_Endpoint::insertSequenceNumber(SequenceRange *sequence,
 			delete sequence;
 			return;
 		}
-
-		processRetransmissionEvent(previouslyObservedSegment, key, sequence, ts,
+        processRetransmissionEvent(previouslyObservedSegment, key, sequence, ts,
 				REXMIT_PREV_OBSERVED);
 
 		if (segment)
@@ -664,6 +672,9 @@ void TCPRS_Endpoint::processRetransmissionEvent(Segment* packet,
 		HashKey* key, SequenceRange* seq, uint32 ts,
 		RETRANSMISSION_REASON_CODE reason) {
 	RETRANSMISSION_TYPE_CODE rtype;
+
+	cout << "process retransmission event" << endl;
+		
 	double confidence = 0.0;
 	double estimated_net_time = current_time;
 	if (!IS_UNDEFINED(peer->rtt))
