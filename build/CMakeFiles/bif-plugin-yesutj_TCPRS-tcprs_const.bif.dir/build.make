@@ -51,10 +51,10 @@ CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs_const.bif: tcprs_const.bif.init.cc
 CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs_const.bif: tcprs_const.bif.register.cc
 
 tcprs_const.bif.h: ../src/tcprs_const.bif
-tcprs_const.bif.h: /home/yesutj/zeek/build/aux/bifcl/bifcl
+tcprs_const.bif.h: /home/yesutj/zeekProject/build/aux/bifcl/bifcl
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/yesutj/tcprs/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "[BIFCL] Processing src/tcprs_const.bif"
-	/home/yesutj/zeek/build/aux/bifcl/bifcl -p yesutj::TCPRS /home/yesutj/tcprs/src/tcprs_const.bif || ( rm -f tcprs_const.bif.h tcprs_const.bif.cc tcprs_const.bif.init.cc tcprs_const.bif.register.cc && exit 1 )
+	/home/yesutj/zeekProject/build/aux/bifcl/bifcl -p yesutj::TCPRS /home/yesutj/tcprs/src/tcprs_const.bif || ( rm -f tcprs_const.bif.h tcprs_const.bif.cc tcprs_const.bif.init.cc tcprs_const.bif.register.cc && exit 1 )
 	/usr/local/bin/cmake -E copy tcprs_const.bif.zeek /home/yesutj/tcprs/build/lib/bif/tcprs_const.bif.zeek
 	/usr/local/bin/cmake -E remove -f tcprs_const.bif.zeek
 

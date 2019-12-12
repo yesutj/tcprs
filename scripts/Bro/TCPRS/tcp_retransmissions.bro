@@ -32,6 +32,7 @@ export {
 event bro_init() &priority=5
     {
         Log::create_stream(TCPRETRANSMISSIONS::LOG, [$columns=Info]);
+       
     }
 
 # TCP retransmission event

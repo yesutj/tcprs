@@ -50,7 +50,7 @@ CMakeFiles/dist: yesutj_TCPRS.tar.gz
 yesutj_TCPRS.tar.gz: lib/yesutj-TCPRS.linux-x86_64.so
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/yesutj/tcprs/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Building binary plugin package: yesutj_TCPRS.tar.gz"
-	/home/yesutj/zeek/cmake/zeek-plugin-create-package.sh yesutj_TCPRS README CHANGES COPYING VERSION
+	/home/yesutj/zeekProject/cmake/zeek-plugin-create-package.sh yesutj_TCPRS README CHANGES COPYING VERSION
 
 dist: CMakeFiles/dist
 dist: yesutj_TCPRS.tar.gz

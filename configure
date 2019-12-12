@@ -27,7 +27,6 @@ usage() {
 
 cat 1>&2 <<EOF
 Usage: $0 [OPTIONS]
-
   Plugin Options:
     --bro-dist=DIR             Path to Bro source tree
     --install-root=DIR         Path where to install plugin into
@@ -53,7 +52,7 @@ append_cache_entry () {
 
 # set defaults
 builddir=build
-brodist='/home/yesutj/zeek'
+brodist=`cd ../zeekProject  && pwd`
 installroot="default"
 CMakeCacheEntries=""
 

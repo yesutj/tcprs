@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   execute_process(
-        COMMAND /home/yesutj/zeek/cmake/zeek-plugin-install-package.sh yesutj_TCPRS $ENV{DESTDIR}//usr/local/zeek/lib/zeek/plugins
+        COMMAND /home/yesutj/zeekProject/cmake/zeek-plugin-install-package.sh yesutj_TCPRS $ENV{DESTDIR}//home/yesutj/zeek/lib/zeek/plugins
         WORKING_DIRECTORY /home/yesutj/tcprs/build
     )
 endif()

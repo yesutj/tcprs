@@ -50,10 +50,10 @@ include CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/progress.make
 include CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/flags.make
 
 tcprs.bif.h: ../src/tcprs.bif
-tcprs.bif.h: /home/yesutj/zeek/build/aux/bifcl/bifcl
+tcprs.bif.h: /home/yesutj/zeekProject/build/aux/bifcl/bifcl
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/yesutj/tcprs/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "[BIFCL] Processing src/tcprs.bif"
-	/home/yesutj/zeek/build/aux/bifcl/bifcl -p yesutj::TCPRS /home/yesutj/tcprs/src/tcprs.bif || ( rm -f tcprs.bif.h tcprs.bif.cc tcprs.bif.init.cc tcprs.bif.register.cc && exit 1 )
+	/home/yesutj/zeekProject/build/aux/bifcl/bifcl -p yesutj::TCPRS /home/yesutj/tcprs/src/tcprs.bif || ( rm -f tcprs.bif.h tcprs.bif.cc tcprs.bif.init.cc tcprs.bif.register.cc && exit 1 )
 	/usr/local/bin/cmake -E copy tcprs.bif.zeek /home/yesutj/tcprs/build/lib/bif/tcprs.bif.zeek
 	/usr/local/bin/cmake -E remove -f tcprs.bif.zeek
 
@@ -70,10 +70,10 @@ lib/bif/tcprs.bif.zeek: tcprs.bif.h
 	@$(CMAKE_COMMAND) -E touch_nocreate lib/bif/tcprs.bif.zeek
 
 tcprs_const.bif.h: ../src/tcprs_const.bif
-tcprs_const.bif.h: /home/yesutj/zeek/build/aux/bifcl/bifcl
+tcprs_const.bif.h: /home/yesutj/zeekProject/build/aux/bifcl/bifcl
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/yesutj/tcprs/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "[BIFCL] Processing src/tcprs_const.bif"
-	/home/yesutj/zeek/build/aux/bifcl/bifcl -p yesutj::TCPRS /home/yesutj/tcprs/src/tcprs_const.bif || ( rm -f tcprs_const.bif.h tcprs_const.bif.cc tcprs_const.bif.init.cc tcprs_const.bif.register.cc && exit 1 )
+	/home/yesutj/zeekProject/build/aux/bifcl/bifcl -p yesutj::TCPRS /home/yesutj/tcprs/src/tcprs_const.bif || ( rm -f tcprs_const.bif.h tcprs_const.bif.cc tcprs_const.bif.init.cc tcprs_const.bif.register.cc && exit 1 )
 	/usr/local/bin/cmake -E copy tcprs_const.bif.zeek /home/yesutj/tcprs/build/lib/bif/tcprs_const.bif.zeek
 	/usr/local/bin/cmake -E remove -f tcprs_const.bif.zeek
 

@@ -15,7 +15,7 @@
 ########################
 
 //No help, variable specified on the command line.
-BRO_DIST:PATH=/home/yesutj/zeek
+BRO_DIST:PATH=/home/yesutj/zeekProject
 
 //Path to a program.
 CLANG_TIDY:FILEPATH=CLANG_TIDY-NOTFOUND
@@ -156,7 +156,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=
 CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //No help, variable specified on the command line.
-CMAKE_MODULE_PATH:PATH=/home/yesutj/zeek/cmake
+CMAKE_MODULE_PATH:PATH=/home/yesutj/zeekProject/cmake
 
 //Path to a program.
 CMAKE_NM:FILEPATH=/usr/bin/nm
@@ -241,11 +241,11 @@ yesutj-TCPRS.linux-x86_64_LIB_DEPENDS:STATIC=
 
 BRO_PLUGIN_BASE:INTERNAL=/home/yesutj/tcprs
 BRO_PLUGIN_BIF:INTERNAL=/home/yesutj/tcprs/build/lib/bif
-BRO_PLUGIN_BRO_BUILD:INTERNAL=/home/yesutj/zeek/build
+BRO_PLUGIN_BRO_BUILD:INTERNAL=/home/yesutj/zeekProject/build
 BRO_PLUGIN_BRO_EXE_PATH:INTERNAL=
-BRO_PLUGIN_BRO_INSTALL_PREFIX:INTERNAL=/usr/local/zeek
-BRO_PLUGIN_BRO_PLUGIN_INSTALL_PATH:INTERNAL=/usr/local/zeek/lib/zeek/plugins
-BRO_PLUGIN_BRO_SRC:INTERNAL=/home/yesutj/zeek
+BRO_PLUGIN_BRO_INSTALL_PREFIX:INTERNAL=/home/yesutj/zeek
+BRO_PLUGIN_BRO_PLUGIN_INSTALL_PATH:INTERNAL=/home/yesutj/zeek/lib/zeek/plugins
+BRO_PLUGIN_BRO_SRC:INTERNAL=/home/yesutj/zeekProject
 BRO_PLUGIN_BUILD:INTERNAL=/home/yesutj/tcprs/build
 BRO_PLUGIN_ENABLE_DEBUG:INTERNAL=true
 BRO_PLUGIN_LIB:INTERNAL=/home/yesutj/tcprs/build/lib
@@ -415,7 +415,7 @@ ZEEK_PLUGIN_INTERNAL_BUILD:INTERNAL=false
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/usr/local
 //automatically generated files
-bro_ALL_GENERATED_OUTPUTS:INTERNAL=bif-plugin-yesutj_TCPRS-tcprs.bif;bif-plugin-yesutj_TCPRS-tcprs_const.bif;bif-plugin-yesutj_TCPRS-tcprs.bif;bif-plugin-yesutj_TCPRS-tcprs_const.bif;bif-plugin-yesutj_TCPRS-tcprs.bif;bif-plugin-yesutj_TCPRS-tcprs_const.bif;bif-plugin-yesutj_TCPRS-tcprs.bif;bif-plugin-yesutj_TCPRS-tcprs_const.bif
+bro_ALL_GENERATED_OUTPUTS:INTERNAL=bif-plugin-yesutj_TCPRS-tcprs.bif;bif-plugin-yesutj_TCPRS-tcprs_const.bif;bif-plugin-yesutj_TCPRS-tcprs.bif;bif-plugin-yesutj_TCPRS-tcprs_const.bif;bif-plugin-yesutj_TCPRS-tcprs.bif;bif-plugin-yesutj_TCPRS-tcprs_const.bif
 //Zeek script stubs for BIFs in Zeek plugins
 bro_PLUGIN_BIF_SCRIPTS:INTERNAL=/home/yesutj/tcprs/build/lib/bif/tcprs.bif.zeek;/home/yesutj/tcprs/build/lib/bif/tcprs_const.bif.zeek
 //plugin libraries
