@@ -55,7 +55,7 @@ builddir=build
 brodist=/home/yesutj/zeekProject
 installroot="default"
 CMakeCacheEntries=""
-echo $bro-dist
+
 while [ $# -ne 0 ]; do
     case "$1" in
         -*=*) optarg=`echo "$1" | sed 's/[-_a-zA-Z0-9]*=//'` ;;
@@ -88,7 +88,7 @@ while [ $# -ne 0 ]; do
 done
 
 if [ ! -e "$brodist/bro-path-dev.in" ]; then
-    echo '%brodist'
+    echo '...$brodist'
     echo "Cannot determine Bro source directory, use --bro-dist=DIR...."
     exit 1
 fi
