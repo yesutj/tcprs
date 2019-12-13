@@ -52,8 +52,8 @@ append_cache_entry () {
 
 # set defaults
 builddir=build
-echo $(pwd)
-brodist=$(cd ../zeekProject && pwd)
+echo $(cd $HOME/zeekProject && pwd)
+brodist=$(cd $HOME/zeekProject && pwd)
 installroot="default"
 CMakeCacheEntries=""
 
