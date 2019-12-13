@@ -6,7 +6,6 @@ yesutj_TCPRS/lib/yesutj-TCPRS.linux-x86_64.so
 yesutj_TCPRS/scripts/types.bro
 yesutj_TCPRS/scripts/Bro/TCPRS/tcp_functions.bro
 yesutj_TCPRS/scripts/Bro/TCPRS/tcp_reordering.bro
-yesutj_TCPRS/scripts/Bro/TCPRS/tcp_osfp.bro
 yesutj_TCPRS/scripts/Bro/TCPRS/tcp_retransmissions.bro
 yesutj_TCPRS/scripts/Bro/TCPRS/tcp_options.bro
 yesutj_TCPRS/scripts/Bro/TCPRS/tcp_recovery.bro

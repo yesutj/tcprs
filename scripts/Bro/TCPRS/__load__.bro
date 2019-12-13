@@ -5,6 +5,8 @@
 @load ./tcp_recovery
 @load ./tcp_rtt
 
-event bro_init() {
+event bro_init() 
+{
+	print "yesutj::TCPRS is loaded"; 
 	TCPRS::EnableTCPRSAnalyzer();
 }

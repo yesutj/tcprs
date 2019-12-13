@@ -52,10 +52,10 @@ append_cache_entry () {
 
 # set defaults
 builddir=build
-brodist=`cd ../zeekProject  && pwd`
+brodist=/home/yesutj/zeekProject
 installroot="default"
 CMakeCacheEntries=""
-
+echo $bro-dist
 while [ $# -ne 0 ]; do
     case "$1" in
         -*=*) optarg=`echo "$1" | sed 's/[-_a-zA-Z0-9]*=//'` ;;
