@@ -56,9 +56,9 @@ CMAKE_BINARY_DIR = /home/yesutj/tcprs/build
 # Target rules for target CMakeFiles/bif-init-yesutj_TCPRS.dir
 
 # All Build rule for target.
-CMakeFiles/bif-init-yesutj_TCPRS.dir/all: CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs_const.bif.dir/all
 CMakeFiles/bif-init-yesutj_TCPRS.dir/all: CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs.bif.dir/all
 CMakeFiles/bif-init-yesutj_TCPRS.dir/all: CMakeFiles/generate_outputs.dir/all
+CMakeFiles/bif-init-yesutj_TCPRS.dir/all: CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs_const.bif.dir/all
 	$(MAKE) -f CMakeFiles/bif-init-yesutj_TCPRS.dir/build.make CMakeFiles/bif-init-yesutj_TCPRS.dir/depend
 	$(MAKE) -f CMakeFiles/bif-init-yesutj_TCPRS.dir/build.make CMakeFiles/bif-init-yesutj_TCPRS.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/yesutj/tcprs/build/CMakeFiles 
@@ -151,8 +151,8 @@ clean: CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs_const.bif.dir/clean
 # Target rules for target CMakeFiles/bro-plugin-yesutj_TCPRS.dir
 
 # All Build rule for target.
-CMakeFiles/bro-plugin-yesutj_TCPRS.dir/all: CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs_const.bif.dir/all
 CMakeFiles/bro-plugin-yesutj_TCPRS.dir/all: CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs.bif.dir/all
+CMakeFiles/bro-plugin-yesutj_TCPRS.dir/all: CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs_const.bif.dir/all
 	$(MAKE) -f CMakeFiles/bro-plugin-yesutj_TCPRS.dir/build.make CMakeFiles/bro-plugin-yesutj_TCPRS.dir/depend
 	$(MAKE) -f CMakeFiles/bro-plugin-yesutj_TCPRS.dir/build.make CMakeFiles/bro-plugin-yesutj_TCPRS.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/yesutj/tcprs/build/CMakeFiles  3
@@ -280,11 +280,11 @@ clean: CMakeFiles/generate_outputs.dir/clean
 # Target rules for target CMakeFiles/yesutj-TCPRS.linux-x86_64.dir
 
 # All Build rule for target.
-CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/all: CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs_const.bif.dir/all
-CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/all: CMakeFiles/bro-plugin-yesutj_TCPRS.dir/all
 CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/all: CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs.bif.dir/all
-CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/all: CMakeFiles/copy-scripts-yesutj_TCPRS.dir/all
 CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/all: CMakeFiles/generate_outputs.dir/all
+CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/all: CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs_const.bif.dir/all
+CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/all: CMakeFiles/copy-scripts-yesutj_TCPRS.dir/all
+CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/all: CMakeFiles/bro-plugin-yesutj_TCPRS.dir/all
 CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/all: CMakeFiles/bif-init-yesutj_TCPRS.dir/all
 	$(MAKE) -f CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/build.make CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/depend
 	$(MAKE) -f CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/build.make CMakeFiles/yesutj-TCPRS.linux-x86_64.dir/build
