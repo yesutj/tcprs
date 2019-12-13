@@ -415,7 +415,7 @@ ZEEK_PLUGIN_INTERNAL_BUILD:INTERNAL=false
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/usr/local
 //automatically generated files
-bro_ALL_GENERATED_OUTPUTS:INTERNAL=bif-plugin-yesutj_TCPRS-tcprs.bif;bif-plugin-yesutj_TCPRS-tcprs_const.bif;bif-plugin-yesutj_TCPRS-tcprs.bif;bif-plugin-yesutj_TCPRS-tcprs_const.bif;bif-plugin-yesutj_TCPRS-tcprs.bif;bif-plugin-yesutj_TCPRS-tcprs_const.bif;bif-plugin-yesutj_TCPRS-tcprs.bif;bif-plugin-yesutj_TCPRS-tcprs_const.bif
+bro_ALL_GENERATED_OUTPUTS:INTERNAL=bif-plugin-yesutj_TCPRS-tcprs.bif;bif-plugin-yesutj_TCPRS-tcprs_const.bif
 //Zeek script stubs for BIFs in Zeek plugins
 bro_PLUGIN_BIF_SCRIPTS:INTERNAL=/home/yesutj/tcprs/build/lib/bif/tcprs.bif.zeek;/home/yesutj/tcprs/build/lib/bif/tcprs_const.bif.zeek
 //plugin libraries
