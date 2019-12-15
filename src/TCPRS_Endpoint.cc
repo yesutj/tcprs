@@ -1956,20 +1956,30 @@ void TCPRS_Endpoint::setPacketAsFastRTX(uint32 sequence) {
  * ****************************************************************************/
 Segment* TCPRS_Endpoint::acknowledgeSequences(uint32 sequence,
 		double acknowledged_time) {
+	
+	cerr << "TCPRS_Endpoint::acknowledgeSequences - 1" << endl;
+	
 	Segment *segment = NULL;
 	Segment *ret = NULL;
 	bool bad_sample = false;
 	SequenceRange *range_key = outstandingData.get();
 	//  This is the cumulative acknowledgement
 	while (range_key
-			&& Sequence_number_comparison(range_key->to_ack, sequence) < 1) {
+			&& Sequence_number_comparison(range_key->to_ack, sequence) < 1) 
+	{
+
+		cerr << "TCPRS_Endpoint::acknowledgeSequences - 2" << endl;	
 		segment = removeSequenceNumber(range_key->to_ack);
 
 		//If a packet in this cumulative acknowledgement is a retransmission, or
 		//  an ambiguous reordered segment, this will throw off the estimation of the RTT
 		//  Discard the packet at the end rather than returning it to perform a
 		//  RTT sample
-		if (segment) {
+		cerr << "TCPRS_Endpoint::acknowledgeSequences - 3" << endl;			
+		if (segment) 		
+		{
+			cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)- 1" << endl;	
+		
 			segment->setAckReceivedTime(acknowledged_time);
 
 			if ((segment->getOrdering() == ORDERING_RETRANSMISSION)
@@ -1978,7 +1988,8 @@ Segment* TCPRS_Endpoint::acknowledgeSequences(uint32 sequence,
 
 			if (!bad_sample) {
 				TCPRS_DEBUG_MSG(LVL_7,CAT_RTT,"time sent=%f time_acked=%f seq=%u rtt=%f", segment->getPacketSentTimestamp(), acknowledged_time, range_key->min, segment->RTT());
-				if (ret) {
+				if (ret) 
+				{
 
 					if (ret->RTT() > segment->RTT()) {
 						delete ret;
@@ -1995,6 +2006,8 @@ Segment* TCPRS_Endpoint::acknowledgeSequences(uint32 sequence,
 				delete segment;
 			}
 			segment = NULL;
+			cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)-2" << endl;	
+		
 		}
 
 		delete range_key;
@@ -2003,26 +2016,34 @@ Segment* TCPRS_Endpoint::acknowledgeSequences(uint32 sequence,
 
 	//If a segment is outstanding but it is not part of this acknowledgement,
 	// then it needs to be placed into the list again.
+	cerr << "TCPRS_Endpoint::acknowledgeSequences - 5-" << endl;	
+		
 	if (range_key
 			&& Sequence_number_comparison(range_key->to_ack, sequence) == 1) {				
 		
 		//outstandingData.sortedinsert(range_key,
 		//		Reverse_sequence_range_comparison);
+		cerr << "TCPRS_Endpoint::acknowledgeSequences - (6)-1" << endl;			
 		outstandingData.append(range_key);
 		outstandingData.sort(Reverse_sequence_range_comparison);
-
-		
-		
 		range_key = NULL;
-	} else if (range_key) {
+	} 
+	else if (range_key)
+	{
+		cerr << "TCPRS_Endpoint::acknowledgeSequences - (6)-2" << endl;			
 		delete range_key;
 		range_key = NULL;
 	}
 
-	if (ret && bad_sample) {
+	if (ret && bad_sample) 
+	{
+		cerr << "TCPRS_Endpoint::acknowledgeSequences - (7)" << endl;			
+
 		delete ret;
 		ret = NULL;
 	}
+
+	cerr << "TCPRS_Endpoint::acknowledgeSequences -8 -" << endl;			
 
 	if (ret) {
 		TCPRS_DEBUG_MSG(LVL_4,CAT_RTT, "%f is the rtt for this RTT sample", ret->RTT());
@@ -2030,9 +2051,12 @@ Segment* TCPRS_Endpoint::acknowledgeSequences(uint32 sequence,
 	//RFC 2988
 	/* (5.2) When all outstanding data has been acknowledged, turn off the
 	 retransmission timer. */
+	 cerr << "TCPRS_Endpoint::acknowledgeSequences -9-" << endl;			
+
 	if (!hasOutstandingData())
 		rtoTimer.turnOff();
 
+	cerr << "TCPRS_Endpoint::acknowledgeSequences end -" << endl;			
 	return ret;
 }
 
@@ -2613,8 +2637,8 @@ void TCPRS_Endpoint::processACK(const uint32 normalizedAckSequence,
 
 	std::cerr << "TCPRS_Endpoint::processACK - 7 " << std::endl;		
 	
-	Segment* segment = peer->acknowledgeSequences(normalizedAckSequence,
-			current_time);
+	Segment* segment = peer->acknowledgeSequences(normalizedAckSequence,current_time);
+	
 	if (segment != NULL) 
 	{
 		std::cerr << "TCPRS_Endpoint::processACK (8)- 1 " << std::endl;			
