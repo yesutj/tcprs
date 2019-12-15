@@ -1,6 +1,6 @@
 #include "Plugin.h"
 #include "TCPRS.h"
-
+#include <iostream>
 namespace plugin { namespace yesutj_TCPRS { Plugin plugin; } }
 
 using namespace plugin::yesutj_TCPRS;
@@ -24,6 +24,7 @@ plugin::Configuration Plugin::Configure()
 
 void Plugin::HookSetupAnalyzerTree(Connection *conn)
 	{
+		std::cerr << "call Plugin::HooksetupAnalyzerTree " << std::endl;
 	analyzer::tcp::TCP_Analyzer* tcp = 0;
 	analyzer::TransportLayerAnalyzer* root = 0;
 
