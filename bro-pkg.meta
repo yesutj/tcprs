@@ -3,5 +3,5 @@ description = TCP Retransmission and State Analyzer plugin for Bro.
 tags = bro plugin, TCP, retransmission, connection state, conn, input reader, protocol analyzer
 build_command = ( ./configure && make )
 plugin_dir=/home/yesutj/zeek/plugins/yesutj_TCPBS/tcprs
-script_dir=/home/yesutj/zeek/share/zeek/site/tcprs
+script_dir=/home/yesutj/tcprs/scripts
 test_command = cd tests btest -d tcprs
