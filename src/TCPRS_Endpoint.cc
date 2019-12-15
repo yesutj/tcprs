@@ -30,6 +30,8 @@ using namespace analyzer::tcp;
 TCPRS_Endpoint::TCPRS_Endpoint(tcp::TCP_Endpoint *e, tcp::TCPRS_Analyzer *a) 
 {
 
+	std::cerr << "TCPRS_Endpoint constructor" << std::endl;
+
 	cout<< " TCPRS_Endpoint::TCPRS_Endpoint called " << endl;
 	endp = e;
 	analyzer = a;
@@ -118,6 +120,8 @@ TCPRS_Endpoint::TCPRS_Endpoint(tcp::TCP_Endpoint *e, tcp::TCPRS_Analyzer *a)
 TCPRS_Endpoint::~TCPRS_Endpoint()
  {
 
+	std::cerr << "TCPRS_Endpoint destrcutor" << std::endl;
+
 	 cout<< " TCPRS_Endpoint::~TCPRS_Endpoint called " << endl;
 	
 	loop_over_list(outstandingData, l) {
@@ -159,6 +163,10 @@ TCPRS_Endpoint::~TCPRS_Endpoint()
 
 void TCPRS_Endpoint::DeliverSegment(int len, const u_char* data,
 		bool is_orig, int seq, const IP_Hdr* ip, int caplen) {
+
+
+	std::cerr << "TCPRS_Endpoint::DeliverSegment" << std::endl;
+
 	ASSERT(ip->Payload());
 
 	const struct tcphdr* tp = (const struct tcphdr*) ip->Payload(); //TODO: this is a hack. Fix it.

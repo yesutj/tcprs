@@ -34,8 +34,9 @@ TCPRS_Analyzer::~TCPRS_Analyzer()
 
 void TCPRS_Analyzer::Init()
 {
-  TCP_ApplicationAnalyzer::Init();
+    std::cerr << "TCPRS_Analyzer::Init" << std::endl;
 
+  TCP_ApplicationAnalyzer::Init();
   measurement_location = NO_LOCATION_DATA;
   max_confidence = 0;
   location_confidence = 0.0;
@@ -57,6 +58,8 @@ void TCPRS_Analyzer::Init()
 
 void TCPRS_Analyzer::Done()
 {
+     std::cerr << "TCPRS_Analyzer::Done" << std::endl;
+
     TCP_ApplicationAnalyzer::Done();
 
     //If the analyzer did not observe the syns of the connection, then we don't
@@ -79,7 +82,10 @@ void TCPRS_Analyzer::Done()
     ConfigSummary();
 }
 
-void TCPRS_Analyzer::ConfigSummary() {
+void TCPRS_Analyzer::ConfigSummary() 
+{
+     std::cerr << "TCPRS_Analyzer::configSummary" << std::endl;
+
     if( TCPRS::conn_config ) {
         val_list* vl = new val_list;
         //If the analyzer did not observe the syns of the connection, then we don't
@@ -104,6 +110,8 @@ void TCPRS_Analyzer::ConfigSummary() {
 void TCPRS_Analyzer::DeliverPacket(int len, const u_char* data, bool is_orig,
                                 uint64 seq, const IP_Hdr* ip, int caplen)
 {
+
+   std::cerr << "TCPRS_Analyzer::DeliverPacket" << std::endl;
   //Gets Header and delivers packet to app analyzer
   TCP_ApplicationAnalyzer::DeliverPacket(len, data, is_orig, seq, ip, caplen);
 
@@ -136,7 +144,10 @@ int TCPRS_Analyzer::GetLikelyDefaultTTL(int ttl) {
 
 void TCPRS_Analyzer::EstimateMeasurementLocation()
 {
-    double rtt1 = orig->getPathRTTEstimate();
+
+    std::cerr << "TCPRS_Analyzer::EstimateMeasurementLocation" << std::endl;
+
+    double rtt1 = orig->getPathRTTEstimate();    
     double rtt2 = resp->getPathRTTEstimate();
 
     //Returns a positive number if it is closer to the orig than resp,
@@ -175,6 +186,9 @@ void TCPRS_Analyzer::EstimateMeasurementLocation()
 }
 
 double TCPRS_Analyzer::Evaluate(double rtt1, double rtt2) {
+    
+    
+    std::cerr << "TCPRS_Analyzer::Evaluate" << std::endl;
     double confidence = 0.0;
     int orig_diff = GetLikelyTTLDiff(orig->getTTL());
     int resp_diff = GetLikelyTTLDiff(resp->getTTL());
