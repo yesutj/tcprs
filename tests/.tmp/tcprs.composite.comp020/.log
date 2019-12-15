@@ -1,0 +1,1 @@
+bro -C -r ${TRACES}/tcp/composite/comp020.trace Bro/TCPRS (expect success)

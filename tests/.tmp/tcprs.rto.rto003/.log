@@ -1,0 +1,1 @@
+bro -C -r ${TRACES}/tcp/rto/rto003.trace Bro/TCPRS (expect success)

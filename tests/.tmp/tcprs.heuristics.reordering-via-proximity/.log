@@ -1,0 +1,1 @@
+bro -C -r ${TRACES}/tcp/heuristics/reordering-via-proximity.trace Bro/TCPRS (expect success)

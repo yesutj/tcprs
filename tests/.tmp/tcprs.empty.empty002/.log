@@ -1,0 +1,1 @@
+bro -C -r ${TRACES}/tcp/empty/empty002.trace Bro/TCPRS (expect success)

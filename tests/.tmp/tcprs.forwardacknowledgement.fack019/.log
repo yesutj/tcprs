@@ -1,0 +1,1 @@
+bro -C -r ${TRACES}/tcp/forwardacknowledgement/fack019.trace Bro/TCPRS (expect success)
