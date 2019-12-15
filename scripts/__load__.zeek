@@ -1,3 +1,1 @@
-#
-# This is loaded unconditionally at Bro startup
-#
+event zeek_init() { print "tcprs is loaded";}
