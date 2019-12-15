@@ -30,8 +30,6 @@ using namespace analyzer::tcp;
 TCPRS_Endpoint::TCPRS_Endpoint(tcp::TCP_Endpoint *e, tcp::TCPRS_Analyzer *a) 
 {
 
-	std::cerr << "TCPRS_Endpoint constructor" << std::endl;
-
 	cout<< " TCPRS_Endpoint::TCPRS_Endpoint called " << endl;
 	endp = e;
 	analyzer = a;
@@ -120,8 +118,6 @@ TCPRS_Endpoint::TCPRS_Endpoint(tcp::TCP_Endpoint *e, tcp::TCPRS_Analyzer *a)
 TCPRS_Endpoint::~TCPRS_Endpoint()
  {
 
-	std::cerr << "TCPRS_Endpoint destrcutor" << std::endl;
-
 	 cout<< " TCPRS_Endpoint::~TCPRS_Endpoint called " << endl;
 	
 	loop_over_list(outstandingData, l) {
@@ -163,10 +159,6 @@ TCPRS_Endpoint::~TCPRS_Endpoint()
 
 void TCPRS_Endpoint::DeliverSegment(int len, const u_char* data,
 		bool is_orig, int seq, const IP_Hdr* ip, int caplen) {
-
-
-	std::cerr << "TCPRS_Endpoint::DeliverSegment" << std::endl;
-
 	ASSERT(ip->Payload());
 
 	const struct tcphdr* tp = (const struct tcphdr*) ip->Payload(); //TODO: this is a hack. Fix it.
@@ -207,7 +199,8 @@ void TCPRS_Endpoint::DeliverSegment(int len, const u_char* data,
 void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 
 
-	std::cerr << "call TCPRS_Endpoint::ProcessSegment" << std::endl;
+	std::cerr << "call Plugin::HooksetupAnalyzerTree " << std::endl;
+
 	const struct tcphdr* tp = (const struct tcphdr*) segment->tp;
 	TCP_Flags flags((const struct tcphdr*) segment->tp);   //Builds the TCPFlags
 	uint16 segmentID = segment->segmentID;
@@ -222,34 +215,33 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 
 	//If both endpoints of the connection have been observed using the Timestamp
 	//  option, then the analyzer should assume that the TS option is being used.
-	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 2" << std::endl;
-	
 	if (!analyzer->UsesTSOption && usesTimestamps && peer->usesTimestamps)
 		analyzer->UsesTSOption = true;
 
-	if (flags.SYN() && !doneSYNACK())	
+	if (flags.SYN() && !doneSYNACK())
 		setState(CONGESTION_3WHS);
 
-	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 3" << std::endl;
-	
 	processOptions(tp, flags, normalized_ack_seq);
 
 	//If this packet does not contain an ack sequence number, reuse the previous max
+	std::cerr << "call Plugin::HooksetupAnalyzerTree - 2" << std::endl;	
 	if (!flags.ACK())
 		normalized_ack_seq = getHighestAck();
 
 	segmentCount++;              // incrementPacketCount();
 	lastIPID = segmentID;
 
-	//We are observing a packet from a endpoint. If it is considered *dead*, it is not dead now.
+	//We are observing a packet from a endpoint. If it is considered *dead*, it is not dead now.	
+	
 	setLife(RSTATE_ENDPOINT_ALIVE);
 
 	// TTLs from the initial SYN are unreliable; ignore those
 	// an endpoint's TTL is the TTL of packets from the endpoint, when they arrive at the measurement point
+	
+	std::cerr << "call Plugin::HooksetupAnalyzerTree - 3" << std::endl;		
 	if (!(flags.SYN() && !flags.ACK()))
 		setTTL(ttl);
 
-	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 4" << std::endl;	
 	//Ensuring that FIN or SYN packets are not used
 	if (flags.ACK())
 		processACK(normalized_ack_seq, len, flags, tp);
@@ -260,7 +252,10 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 
 	// if the packet contained data or was a syn or fin, we're expecting an ACK
 	// TODO: This needs to have the check for the gratuitous ack
-	if (len > 0 || flags.SYN() || flags.FIN()) {
+	if (len > 0 || flags.SYN() || flags.FIN()) 
+	{
+
+		std::cerr << "call Plugin::HooksetupAnalyzerTree -(4)-1 " << std::endl;		
 
 		// deletion of seq_range happens in TCPState_Endpoint::InsertSequenceNumber, if needed
 		SequenceRange *seq_range = new SequenceRange;
@@ -272,50 +267,52 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 		Segment *value = new Segment(current_time, len, segmentID);
 
 		// set new packet as SYN or FIN, if appropriate
-		std::cerr << "call TCPRS_Endpoint::ProcessSegment - 5" << std::endl;	
 		if (flags.FIN()) {
 			value->setFIN();
 			setState(CONGESTION_CONN_CLOSE);
 		}
 		if (flags.SYN())
 			value->setSYN();
-		if (flags.RST())
+		if (flags.RST())		
 			value->setRST();
+
+
+		std::cerr << "call Plugin::HooksetupAnalyzerTree -(4)-2 " << std::endl;		
 
 		//This adds the sequence number to the range for inflight data
 		insertSequenceNumber(seq_range, value, sendTimestampVal,
 				normalized_ack_seq);
 
+		std::cerr << "call Plugin::HooksetupAnalyzerTree -(4)-3 " << std::endl;		
+
 		setHighestSeq(seq_to_insert);
 	}
 
-	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 6" << std::endl;
-	
 	if (!flags.FIN() && !flags.SYN())
 		processOutstandingData(normalized_ack_seq);
 
+	std::cerr << "call Plugin::HooksetupAnalyzerTree -5 " << std::endl;		
+
 	updatePrevWindow();
+
+	std::cerr << "call Plugin::HooksetupAnalyzerTree -6 " << std::endl;		
 	updateLastSeqSent(seq_to_insert);
+	
+	std::cerr << "call Plugin::HooksetupAnalyzerTree -7 " << std::endl;		
 	addTimeStamp(sendTimestampVal);
+	
+	std::cerr << "call Plugin::HooksetupAnalyzerTree -8 " << std::endl;		
 	setHighestAck(normalized_ack_seq);
 }
 
 //Valgrind Safe
-std::cerr << "call TCPRS_Endpoint::ProcessSegment - 7" << std::endl;
-	
 SequenceRange* TCPRS_Endpoint::getAckRange(bro_uint_t sequence) {
 	SequenceRange* seq_range;
 	loop_over_list(outstandingData, l) {
 		seq_range = outstandingData[l];
 		if (seq_range->min == sequence)
-		{
-	     	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 8-1" << std::endl;
-	
 			return seq_range;
-		}
 	}
-    std::cerr << "call TCPRS_Endpoint::ProcessSegment - 8-2" << std::endl;
-
 	return NULL;
 }
 
