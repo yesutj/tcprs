@@ -1,1 +1,1 @@
-event zeek_init() { print "tcprs is loaded";}
+event zeek_init() { print "tcprs plugin is loaded"; }
