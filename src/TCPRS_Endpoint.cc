@@ -1962,7 +1962,9 @@ Segment* TCPRS_Endpoint::acknowledgeSequences(uint32 sequence,
 	Segment *segment = NULL;
 	Segment *ret = NULL;
 	bool bad_sample = false;
-	SequenceRange *range_key = outstandingData.get();
+	SequenceRange *range_key = NULL;
+	if(outstandingData.length())
+		range_key = outstandingData.get();
 	//  This is the cumulative acknowledgement
 	while (range_key
 			&& Sequence_number_comparison(range_key->to_ack, sequence) < 1) 
