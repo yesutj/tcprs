@@ -1,8 +1,0 @@
-/home/yesutj/tcprs/build/CMakeFiles/yesutj-TCPRS.linux-x86_64.dir
-/home/yesutj/tcprs/build/CMakeFiles/bro-plugin-yesutj_TCPRS.dir
-/home/yesutj/tcprs/build/CMakeFiles/bif-init-yesutj_TCPRS.dir
-/home/yesutj/tcprs/build/CMakeFiles/generate_outputs.dir
-/home/yesutj/tcprs/build/CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs.bif.dir
-/home/yesutj/tcprs/build/CMakeFiles/copy-scripts-yesutj_TCPRS.dir
-/home/yesutj/tcprs/build/CMakeFiles/bif-plugin-yesutj_TCPRS-tcprs_const.bif.dir
-/home/yesutj/tcprs/build/CMakeFiles/dist.dir
