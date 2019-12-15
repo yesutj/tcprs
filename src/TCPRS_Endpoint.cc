@@ -222,12 +222,16 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 
 	//If both endpoints of the connection have been observed using the Timestamp
 	//  option, then the analyzer should assume that the TS option is being used.
+	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 2" << std::endl;
+	
 	if (!analyzer->UsesTSOption && usesTimestamps && peer->usesTimestamps)
 		analyzer->UsesTSOption = true;
 
-	if (flags.SYN() && !doneSYNACK())
+	if (flags.SYN() && !doneSYNACK())	
 		setState(CONGESTION_3WHS);
 
+	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 3" << std::endl;
+	
 	processOptions(tp, flags, normalized_ack_seq);
 
 	//If this packet does not contain an ack sequence number, reuse the previous max
@@ -245,6 +249,7 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 	if (!(flags.SYN() && !flags.ACK()))
 		setTTL(ttl);
 
+	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 4" << std::endl;	
 	//Ensuring that FIN or SYN packets are not used
 	if (flags.ACK())
 		processACK(normalized_ack_seq, len, flags, tp);
@@ -267,6 +272,7 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 		Segment *value = new Segment(current_time, len, segmentID);
 
 		// set new packet as SYN or FIN, if appropriate
+		std::cerr << "call TCPRS_Endpoint::ProcessSegment - 5" << std::endl;	
 		if (flags.FIN()) {
 			value->setFIN();
 			setState(CONGESTION_CONN_CLOSE);
@@ -283,6 +289,8 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 		setHighestSeq(seq_to_insert);
 	}
 
+	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 6" << std::endl;
+	
 	if (!flags.FIN() && !flags.SYN())
 		processOutstandingData(normalized_ack_seq);
 
@@ -293,13 +301,21 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 }
 
 //Valgrind Safe
+std::cerr << "call TCPRS_Endpoint::ProcessSegment - 7" << std::endl;
+	
 SequenceRange* TCPRS_Endpoint::getAckRange(bro_uint_t sequence) {
 	SequenceRange* seq_range;
 	loop_over_list(outstandingData, l) {
 		seq_range = outstandingData[l];
 		if (seq_range->min == sequence)
+		{
+	     	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 8-1" << std::endl;
+	
 			return seq_range;
+		}
 	}
+    std::cerr << "call TCPRS_Endpoint::ProcessSegment - 8-2" << std::endl;
+
 	return NULL;
 }
 
