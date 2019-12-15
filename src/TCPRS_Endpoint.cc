@@ -245,7 +245,10 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 	//Ensuring that FIN or SYN packets are not used
 	std::cerr << "call Plugin::HooksetupAnalyzerTree - 3-2" << std::endl;			
 	if (flags.ACK())
+	{
+			std::cerr << "call Plugin::HooksetupAnalyzerTree - 3-2-2" << std::endl;			
 		processACK(normalized_ack_seq, len, flags, tp);
+	}
 
 	// the sequence number we want ACKed is different for FINs and SYNs
 	std::cerr << "call Plugin::HooksetupAnalyzerTree - 3-3" << std::endl;			
@@ -2575,21 +2578,29 @@ void TCPRS_Endpoint::processACK(const uint32 normalizedAckSequence,
 			"processing acknowledgement for sequence %u at time %f",
 			normalizedAckSequence, current_time);
 
+	std::cerr << "TCPRS_Endpoint::processACK - 1 " << std::endl;	
 	isDuplicateAck(normalizedAckSequence, len, flags.SYN(), flags.FIN());
 
+	std::cerr << "TCPRS_Endpoint::processACK - 2 " << std::endl;		
 	ackTimestamps.addEntry(new double(current_time));
 	ackCount++; //Probably not necessary
 
 	// this is the syn-ack.  the normalized syn-ack seq# is always 1
+	std::cerr << "TCPRS_Endpoint::processACK - 3 " << std::endl;			
 	bool is_syn_ack = (!doneSYNACK() && normalizedAckSequence == 1);
 
 	if (is_syn_ack) {
+		std::cerr << "TCPRS_Endpoint::processACK - 4 " << std::endl;			
 		setDoneSYNACK(true);
 	}
 
+	std::cerr << "TCPRS_Endpoint::processACK - 5 " << std::endl;		
+	
 	if (normalizedAckSequence >= peer->getRecoverySeq()
 			&& peer->getRecoveryState() != RECOVERY_NORMAL) {
 
+	std::cerr << "TCPRS_Endpoint::processACK - 6 " << std::endl;		
+	
 		if (peer->getRecoveryState() == RECOVERY_RTO)
 			peer->setState(CONGESTION_SLOW_START);
 		TCPRS_DEBUG_MSG(LVL_1, CAT_RECOVERY, "restored normal state seq=%i ts=%f peer->recoveryseq=%i",
@@ -2600,19 +2611,27 @@ void TCPRS_Endpoint::processACK(const uint32 normalizedAckSequence,
 	//The packet up to normalized_ack_seq have made it to the endpoint and back
 	//to the observation point. This confirms receipt. Lets Ack the sequences.
 
+	std::cerr << "TCPRS_Endpoint::processACK - 7 " << std::endl;		
+	
 	Segment* segment = peer->acknowledgeSequences(normalizedAckSequence,
 			current_time);
-	if (segment != NULL) {
+	if (segment != NULL) 
+	{
+		std::cerr << "TCPRS_Endpoint::processACK (8)- 1 " << std::endl;			
 		segment->setAckReceivedTime(current_time);
 
 		peer->recordValidRTTSample();
 		peer->updateRTT(segment->RTT());
 
 		//This endpoint is the source of the connection /defined as near_src
+		std::cerr << "TCPRS_Endpoint::processACK (8)- 2 " << std::endl;			
+		
 		if (hasPathRTTEstimate())
 			analyzer->EstimateMeasurementLocation();
 
+		std::cerr << "TCPRS_Endpoint::processACK (8)- 3 " << std::endl;					
 		delete segment;
+
 	}
 
 	//If both endpoints have seen the handshake, new data is being acknowledged,
@@ -2620,14 +2639,21 @@ void TCPRS_Endpoint::processACK(const uint32 normalizedAckSequence,
 	//  record an initial rtt if one endpoint had to retransmit a syn packet.
 	//  Only get the initial RTT from the originating endpoint so as to
 	//  eliminate noise from unidirectional connections
+	std::cerr << "TCPRS_Endpoint::processACK 9 " << std::endl;			
+		
 	if (doneSYNACK() && peer->doneSYNACK() && getHighestAck() >= 1
 			&& getState() == CONGESTION_3WHS && isOrig() &&
 			(getRTO() == 0 && peer->getRTO() == 0)) {
 		setState(CONGESTION_SLOW_START);
 
 		//The line below is an assumption that the other side receives the acknowledgement
+
+		std::cerr << "TCPRS_Endpoint::processACK (10)-1 " << std::endl;			
+	
 		peer->setState(CONGESTION_SLOW_START);
-	    if (hasPathRTTEstimate()) {
+	    if (hasPathRTTEstimate()) 
+		{
+			std::cerr << "TCPRS_Endpoint::processACK (11)-1 " << std::endl;				
 	    	val_list *vl = new val_list;
 
 	    	vl->append(analyzer->BuildConnVal());
@@ -2635,7 +2661,9 @@ void TCPRS_Endpoint::processACK(const uint32 normalizedAckSequence,
 	    	vl->append(new Val(getPathRTTEstimate(),TYPE_DOUBLE));
 	    	vl->append(new Val(isOrig(),TYPE_BOOL));
 
+			std::cerr << "TCPRS_Endpoint::processACK (11)-2 " << std::endl;			
 	    	analyzer->ConnectionEvent(TCPRS::conn_initial_rtt, vl);
+	
 	    }
 	}
 
