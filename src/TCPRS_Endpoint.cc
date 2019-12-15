@@ -243,10 +243,12 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 		setTTL(ttl);
 
 	//Ensuring that FIN or SYN packets are not used
+	std::cerr << "call Plugin::HooksetupAnalyzerTree - 3-2" << std::endl;			
 	if (flags.ACK())
 		processACK(normalized_ack_seq, len, flags, tp);
 
 	// the sequence number we want ACKed is different for FINs and SYNs
+	std::cerr << "call Plugin::HooksetupAnalyzerTree - 3-3" << std::endl;			
 	if (flags.FIN() || flags.SYN())
 		seq_to_insert++;
 
