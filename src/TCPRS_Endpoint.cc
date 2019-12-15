@@ -2012,8 +2012,10 @@ Segment* TCPRS_Endpoint::acknowledgeSequences(uint32 sequence,
 
 		cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)-3" << endl;	
 		delete range_key;
+		range_key = nullptr;
 		cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)-4" << endl;	
-		range_key = outstandingData.get();
+		if(!outstandingData.empty())
+			range_key = outstandingData.get();
 		cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)-5" << endl;	
 
 	}
