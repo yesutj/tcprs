@@ -197,6 +197,9 @@ void TCPRS_Endpoint::DeliverSegment(int len, const u_char* data,
 }
 
 void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
+
+
+	std::cerr << "call TCPRS_Endpoint::ProcessSegment" << std::endl;
 	const struct tcphdr* tp = (const struct tcphdr*) segment->tp;
 	TCP_Flags flags((const struct tcphdr*) segment->tp);   //Builds the TCPFlags
 	uint16 segmentID = segment->segmentID;
