@@ -34,7 +34,7 @@ TCPRS_Analyzer::~TCPRS_Analyzer()
 
 void TCPRS_Analyzer::Init()
 {
-    std::cerr << "TCPRS_Analyzer::Init" << std::endl;
+    std::// cerr << "TCPRS_Analyzer::Init" << std::endl;
 
   TCP_ApplicationAnalyzer::Init();
   measurement_location = NO_LOCATION_DATA;
@@ -58,7 +58,7 @@ void TCPRS_Analyzer::Init()
 
 void TCPRS_Analyzer::Done()
 {
-     std::cerr << "TCPRS_Analyzer::Done" << std::endl;
+     std::// cerr << "TCPRS_Analyzer::Done" << std::endl;
 
     TCP_ApplicationAnalyzer::Done();
 
@@ -84,7 +84,7 @@ void TCPRS_Analyzer::Done()
 
 void TCPRS_Analyzer::ConfigSummary() 
 {
-     std::cerr << "TCPRS_Analyzer::configSummary" << std::endl;
+     std::// cerr << "TCPRS_Analyzer::configSummary" << std::endl;
 
     if( TCPRS::conn_config ) {
         val_list* vl = new val_list;
@@ -111,7 +111,7 @@ void TCPRS_Analyzer::DeliverPacket(int len, const u_char* data, bool is_orig,
                                 uint64 seq, const IP_Hdr* ip, int caplen)
 {
 
-   std::cerr << "TCPRS_Analyzer::DeliverPacket" << std::endl;
+   std::// cerr << "TCPRS_Analyzer::DeliverPacket" << std::endl;
   //Gets Header and delivers packet to app analyzer
   TCP_ApplicationAnalyzer::DeliverPacket(len, data, is_orig, seq, ip, caplen);
 
@@ -145,7 +145,7 @@ int TCPRS_Analyzer::GetLikelyDefaultTTL(int ttl) {
 void TCPRS_Analyzer::EstimateMeasurementLocation()
 {
 
-    std::cerr << "TCPRS_Analyzer::EstimateMeasurementLocation" << std::endl;
+    std::// cerr << "TCPRS_Analyzer::EstimateMeasurementLocation" << std::endl;
 
     double rtt1 = orig->getPathRTTEstimate();    
     double rtt2 = resp->getPathRTTEstimate();
@@ -188,7 +188,7 @@ void TCPRS_Analyzer::EstimateMeasurementLocation()
 double TCPRS_Analyzer::Evaluate(double rtt1, double rtt2) {
     
     
-    std::cerr << "TCPRS_Analyzer::Evaluate" << std::endl;
+    std::// cerr << "TCPRS_Analyzer::Evaluate" << std::endl;
     double confidence = 0.0;
     int orig_diff = GetLikelyTTLDiff(orig->getTTL());
     int resp_diff = GetLikelyTTLDiff(resp->getTTL());

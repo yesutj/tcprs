@@ -199,7 +199,7 @@ void TCPRS_Endpoint::DeliverSegment(int len, const u_char* data,
 void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 
 
-	std::cerr << "call Plugin::HooksetupAnalyzerTree " << std::endl;
+	std::// cerr << "call Plugin::HooksetupAnalyzerTree " << std::endl;
 
 	const struct tcphdr* tp = (const struct tcphdr*) segment->tp;
 	TCP_Flags flags((const struct tcphdr*) segment->tp);   //Builds the TCPFlags
@@ -224,7 +224,7 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 	processOptions(tp, flags, normalized_ack_seq);
 
 	//If this packet does not contain an ack sequence number, reuse the previous max
-	std::cerr << "call Plugin::HooksetupAnalyzerTree - 2" << std::endl;	
+	std::// cerr << "call Plugin::HooksetupAnalyzerTree - 2" << std::endl;	
 	if (!flags.ACK())
 		normalized_ack_seq = getHighestAck();
 
@@ -238,20 +238,20 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 	// TTLs from the initial SYN are unreliable; ignore those
 	// an endpoint's TTL is the TTL of packets from the endpoint, when they arrive at the measurement point
 	
-	std::cerr << "call Plugin::HooksetupAnalyzerTree - 3" << std::endl;		
+	std::// cerr << "call Plugin::HooksetupAnalyzerTree - 3" << std::endl;		
 	if (!(flags.SYN() && !flags.ACK()))
 		setTTL(ttl);
 
 	//Ensuring that FIN or SYN packets are not used
-	std::cerr << "call Plugin::HooksetupAnalyzerTree - 3-2" << std::endl;			
+	std::// cerr << "call Plugin::HooksetupAnalyzerTree - 3-2" << std::endl;			
 	if (flags.ACK())
 	{
-			std::cerr << "call Plugin::HooksetupAnalyzerTree - 3-2-2" << std::endl;			
+			std::// cerr << "call Plugin::HooksetupAnalyzerTree - 3-2-2" << std::endl;			
 		processACK(normalized_ack_seq, len, flags, tp);
 	}
 
 	// the sequence number we want ACKed is different for FINs and SYNs
-	std::cerr << "call Plugin::HooksetupAnalyzerTree - 3-3" << std::endl;			
+	std::// cerr << "call Plugin::HooksetupAnalyzerTree - 3-3" << std::endl;			
 	if (flags.FIN() || flags.SYN())
 		seq_to_insert++;
 
@@ -260,7 +260,7 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 	if (len > 0 || flags.SYN() || flags.FIN()) 
 	{
 
-		std::cerr << "call Plugin::HooksetupAnalyzerTree -(4)-1 " << std::endl;		
+		std::// cerr << "call Plugin::HooksetupAnalyzerTree -(4)-1 " << std::endl;		
 
 		// deletion of seq_range happens in TCPState_Endpoint::InsertSequenceNumber, if needed
 		SequenceRange *seq_range = new SequenceRange;
@@ -282,13 +282,13 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 			value->setRST();
 
 
-		std::cerr << "call Plugin::HooksetupAnalyzerTree -(4)-2 " << std::endl;		
+		std::// cerr << "call Plugin::HooksetupAnalyzerTree -(4)-2 " << std::endl;		
 
 		//This adds the sequence number to the range for inflight data
 		insertSequenceNumber(seq_range, value, sendTimestampVal,
 				normalized_ack_seq);
 
-		std::cerr << "call Plugin::HooksetupAnalyzerTree -(4)-3 " << std::endl;		
+		std::// cerr << "call Plugin::HooksetupAnalyzerTree -(4)-3 " << std::endl;		
 
 		setHighestSeq(seq_to_insert);
 	}
@@ -296,17 +296,17 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 	if (!flags.FIN() && !flags.SYN())
 		processOutstandingData(normalized_ack_seq);
 
-	std::cerr << "call Plugin::HooksetupAnalyzerTree -5 " << std::endl;		
+	std::// cerr << "call Plugin::HooksetupAnalyzerTree -5 " << std::endl;		
 
 	updatePrevWindow();
 
-	std::cerr << "call Plugin::HooksetupAnalyzerTree -6 " << std::endl;		
+	std::// cerr << "call Plugin::HooksetupAnalyzerTree -6 " << std::endl;		
 	updateLastSeqSent(seq_to_insert);
 	
-	std::cerr << "call Plugin::HooksetupAnalyzerTree -7 " << std::endl;		
+	std::// cerr << "call Plugin::HooksetupAnalyzerTree -7 " << std::endl;		
 	addTimeStamp(sendTimestampVal);
 	
-	std::cerr << "call Plugin::HooksetupAnalyzerTree -8 " << std::endl;		
+	std::// cerr << "call Plugin::HooksetupAnalyzerTree -8 " << std::endl;		
 	setHighestAck(normalized_ack_seq);
 }
 
@@ -468,6 +468,7 @@ void TCPRS_Endpoint::insertSequenceNumber(SequenceRange *sequence,
 		Segment *segment, uint32 ts, uint32 normalized_ack_seq) {
 	ASSERT(segment); ASSERT(sequence);
 
+    std::cerr << TCPRS_Endpoint::insertSequenceNumber << endl;
 	HashKey *h = new HashKey(sequence->to_ack);
 	HashKey *key = new HashKey(sequence->min);
 	bool overlapsPreviouslyObservedSegment = false;
@@ -1957,7 +1958,7 @@ void TCPRS_Endpoint::setPacketAsFastRTX(uint32 sequence) {
 Segment* TCPRS_Endpoint::acknowledgeSequences(uint32 sequence,
 		double acknowledged_time) {
 	
-	cerr << "TCPRS_Endpoint::acknowledgeSequences - 1" << endl;
+	// cerr << "TCPRS_Endpoint::acknowledgeSequences - 1" << endl;
 	
 	Segment *segment = NULL;
 	Segment *ret = NULL;
@@ -1970,17 +1971,17 @@ Segment* TCPRS_Endpoint::acknowledgeSequences(uint32 sequence,
 			&& Sequence_number_comparison(range_key->to_ack, sequence) < 1) 
 	{
 
-		cerr << "TCPRS_Endpoint::acknowledgeSequences - 2" << endl;	
+		// cerr << "TCPRS_Endpoint::acknowledgeSequences - 2" << endl;	
 		segment = removeSequenceNumber(range_key->to_ack);
 
 		//If a packet in this cumulative acknowledgement is a retransmission, or
 		//  an ambiguous reordered segment, this will throw off the estimation of the RTT
 		//  Discard the packet at the end rather than returning it to perform a
 		//  RTT sample
-		cerr << "TCPRS_Endpoint::acknowledgeSequences - 3" << endl;			
+		// cerr << "TCPRS_Endpoint::acknowledgeSequences - 3" << endl;			
 		if (segment) 		
 		{
-			cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)- 1" << endl;	
+			// cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)- 1" << endl;	
 		
 			segment->setAckReceivedTime(acknowledged_time);
 
@@ -2008,50 +2009,50 @@ Segment* TCPRS_Endpoint::acknowledgeSequences(uint32 sequence,
 				delete segment;
 			}
 			segment = NULL;
-			cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)-2" << endl;	
+			// cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)-2" << endl;	
 		
 		}
 
-		cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)-3" << endl;	
+		// cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)-3" << endl;	
 		delete range_key;
 		range_key = NULL;
-		cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)-4" << endl;	
+		// cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)-4" << endl;	
 		if(outstandingData.length())
 			range_key = outstandingData.get();
-		cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)-5" << endl;	
+		// cerr << "TCPRS_Endpoint::acknowledgeSequences - (4)-5" << endl;	
 
 	}
 
 	//If a segment is outstanding but it is not part of this acknowledgement,
 	// then it needs to be placed into the list again.
-	cerr << "TCPRS_Endpoint::acknowledgeSequences - 5-" << endl;	
+	// cerr << "TCPRS_Endpoint::acknowledgeSequences - 5-" << endl;	
 		
 	if (range_key
 			&& Sequence_number_comparison(range_key->to_ack, sequence) == 1) {				
 		
 		//outstandingData.sortedinsert(range_key,
 		//		Reverse_sequence_range_comparison);
-		cerr << "TCPRS_Endpoint::acknowledgeSequences - (6)-1" << endl;			
+		// cerr << "TCPRS_Endpoint::acknowledgeSequences - (6)-1" << endl;			
 		outstandingData.append(range_key);
 		outstandingData.sort(Reverse_sequence_range_comparison);
 		range_key = NULL;
 	} 
 	else if (range_key)
 	{
-		cerr << "TCPRS_Endpoint::acknowledgeSequences - (6)-2" << endl;			
+		// cerr << "TCPRS_Endpoint::acknowledgeSequences - (6)-2" << endl;			
 		delete range_key;
 		range_key = NULL;
 	}
 
 	if (ret && bad_sample) 
 	{
-		cerr << "TCPRS_Endpoint::acknowledgeSequences - (7)" << endl;			
+		// cerr << "TCPRS_Endpoint::acknowledgeSequences - (7)" << endl;			
 
 		delete ret;
 		ret = NULL;
 	}
 
-	cerr << "TCPRS_Endpoint::acknowledgeSequences -8 -" << endl;			
+	// cerr << "TCPRS_Endpoint::acknowledgeSequences -8 -" << endl;			
 
 	if (ret) {
 		TCPRS_DEBUG_MSG(LVL_4,CAT_RTT, "%f is the rtt for this RTT sample", ret->RTT());
@@ -2059,12 +2060,12 @@ Segment* TCPRS_Endpoint::acknowledgeSequences(uint32 sequence,
 	//RFC 2988
 	/* (5.2) When all outstanding data has been acknowledged, turn off the
 	 retransmission timer. */
-	 cerr << "TCPRS_Endpoint::acknowledgeSequences -9-" << endl;			
+	 // cerr << "TCPRS_Endpoint::acknowledgeSequences -9-" << endl;			
 
 	if (!hasOutstandingData())
 		rtoTimer.turnOff();
 
-	cerr << "TCPRS_Endpoint::acknowledgeSequences end -" << endl;			
+	// cerr << "TCPRS_Endpoint::acknowledgeSequences end -" << endl;			
 	return ret;
 }
 
@@ -2610,28 +2611,28 @@ void TCPRS_Endpoint::processACK(const uint32 normalizedAckSequence,
 			"processing acknowledgement for sequence %u at time %f",
 			normalizedAckSequence, current_time);
 
-	std::cerr << "TCPRS_Endpoint::processACK - 1 " << std::endl;	
+	std::// cerr << "TCPRS_Endpoint::processACK - 1 " << std::endl;	
 	isDuplicateAck(normalizedAckSequence, len, flags.SYN(), flags.FIN());
 
-	std::cerr << "TCPRS_Endpoint::processACK - 2 " << std::endl;		
+	std::// cerr << "TCPRS_Endpoint::processACK - 2 " << std::endl;		
 	ackTimestamps.addEntry(new double(current_time));
 	ackCount++; //Probably not necessary
 
 	// this is the syn-ack.  the normalized syn-ack seq# is always 1
-	std::cerr << "TCPRS_Endpoint::processACK - 3 " << std::endl;			
+	std::// cerr << "TCPRS_Endpoint::processACK - 3 " << std::endl;			
 	bool is_syn_ack = (!doneSYNACK() && normalizedAckSequence == 1);
 
 	if (is_syn_ack) {
-		std::cerr << "TCPRS_Endpoint::processACK - 4 " << std::endl;			
+		std::// cerr << "TCPRS_Endpoint::processACK - 4 " << std::endl;			
 		setDoneSYNACK(true);
 	}
 
-	std::cerr << "TCPRS_Endpoint::processACK - 5 " << std::endl;		
+	std::// cerr << "TCPRS_Endpoint::processACK - 5 " << std::endl;		
 	
 	if (normalizedAckSequence >= peer->getRecoverySeq()
 			&& peer->getRecoveryState() != RECOVERY_NORMAL) {
 
-	std::cerr << "TCPRS_Endpoint::processACK - 6 " << std::endl;		
+	std::// cerr << "TCPRS_Endpoint::processACK - 6 " << std::endl;		
 	
 		if (peer->getRecoveryState() == RECOVERY_RTO)
 			peer->setState(CONGESTION_SLOW_START);
@@ -2643,25 +2644,25 @@ void TCPRS_Endpoint::processACK(const uint32 normalizedAckSequence,
 	//The packet up to normalized_ack_seq have made it to the endpoint and back
 	//to the observation point. This confirms receipt. Lets Ack the sequences.
 
-	std::cerr << "TCPRS_Endpoint::processACK - 7 " << std::endl;		
+	std::// cerr << "TCPRS_Endpoint::processACK - 7 " << std::endl;		
 	
 	Segment* segment = peer->acknowledgeSequences(normalizedAckSequence,current_time);
 	
 	if (segment != NULL) 
 	{
-		std::cerr << "TCPRS_Endpoint::processACK (8)- 1 " << std::endl;			
+		std::// cerr << "TCPRS_Endpoint::processACK (8)- 1 " << std::endl;			
 		segment->setAckReceivedTime(current_time);
 
 		peer->recordValidRTTSample();
 		peer->updateRTT(segment->RTT());
 
 		//This endpoint is the source of the connection /defined as near_src
-		std::cerr << "TCPRS_Endpoint::processACK (8)- 2 " << std::endl;			
+		std::// cerr << "TCPRS_Endpoint::processACK (8)- 2 " << std::endl;			
 		
 		if (hasPathRTTEstimate())
 			analyzer->EstimateMeasurementLocation();
 
-		std::cerr << "TCPRS_Endpoint::processACK (8)- 3 " << std::endl;					
+		std::// cerr << "TCPRS_Endpoint::processACK (8)- 3 " << std::endl;					
 		delete segment;
 
 	}
@@ -2671,7 +2672,7 @@ void TCPRS_Endpoint::processACK(const uint32 normalizedAckSequence,
 	//  record an initial rtt if one endpoint had to retransmit a syn packet.
 	//  Only get the initial RTT from the originating endpoint so as to
 	//  eliminate noise from unidirectional connections
-	std::cerr << "TCPRS_Endpoint::processACK 9 " << std::endl;			
+	std::// cerr << "TCPRS_Endpoint::processACK 9 " << std::endl;			
 		
 	if (doneSYNACK() && peer->doneSYNACK() && getHighestAck() >= 1
 			&& getState() == CONGESTION_3WHS && isOrig() &&
@@ -2680,12 +2681,12 @@ void TCPRS_Endpoint::processACK(const uint32 normalizedAckSequence,
 
 		//The line below is an assumption that the other side receives the acknowledgement
 
-		std::cerr << "TCPRS_Endpoint::processACK (10)-1 " << std::endl;			
+		std::// cerr << "TCPRS_Endpoint::processACK (10)-1 " << std::endl;			
 	
 		peer->setState(CONGESTION_SLOW_START);
 	    if (hasPathRTTEstimate()) 
 		{
-			std::cerr << "TCPRS_Endpoint::processACK (11)-1 " << std::endl;				
+			std::// cerr << "TCPRS_Endpoint::processACK (11)-1 " << std::endl;				
 	    	val_list *vl = new val_list;
 
 	    	vl->append(analyzer->BuildConnVal());
@@ -2693,7 +2694,7 @@ void TCPRS_Endpoint::processACK(const uint32 normalizedAckSequence,
 	    	vl->append(new Val(getPathRTTEstimate(),TYPE_DOUBLE));
 	    	vl->append(new Val(isOrig(),TYPE_BOOL));
 
-			std::cerr << "TCPRS_Endpoint::processACK (11)-2 " << std::endl;			
+			std::// cerr << "TCPRS_Endpoint::processACK (11)-2 " << std::endl;			
 	    	analyzer->ConnectionEvent(TCPRS::conn_initial_rtt, vl);
 	
 	    }
