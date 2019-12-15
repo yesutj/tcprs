@@ -5,7 +5,7 @@ namespace plugin { namespace yesutj_TCPRS { Plugin plugin; } }
 
 using namespace plugin::yesutj_TCPRS;
 
-static bool use_tcprs_analyzer = false;
+static bool use_tcprs_analyzer = true;
 
 plugin::Configuration Plugin::Configure()
 	{
