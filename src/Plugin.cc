@@ -9,6 +9,10 @@ static bool use_tcprs_analyzer = true;
 
 plugin::Configuration Plugin::Configure()
 	{
+
+
+
+	cerr << "Plugin::Configure-start" << endl;
 	AddComponent(new ::analyzer::Component("TCPRS", ::analyzer::tcp::TCPRS_Analyzer::Instantiate));
 
 	plugin::Configuration config;
@@ -56,7 +60,7 @@ void Plugin::HookSetupAnalyzerTree(Connection *conn)
 
 bool plugin::yesutj_TCPRS::EnableTCPRS()
 	{
-		cerr << "Plugin::HooksetupAnalyzerTree-" << endl;	
+		cerr << "Plugin::EnableTCPRS-" << endl;	
 		use_tcprs_analyzer = true;
 		return use_tcprs_analyzer;
 	}

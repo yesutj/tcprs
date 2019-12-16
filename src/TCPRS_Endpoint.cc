@@ -199,7 +199,7 @@ void TCPRS_Endpoint::DeliverSegment(int len, const u_char* data,
 void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 
 
-	std::cerr << "call Plugin::HooksetupAnalyzerTree " << std::endl;
+	std::cerr << "callTCPRS_Endpoint::ProcessSegment " << std::endl;
 
 	const struct tcphdr* tp = (const struct tcphdr*) segment->tp;
 	TCP_Flags flags((const struct tcphdr*) segment->tp);   //Builds the TCPFlags
@@ -224,7 +224,7 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 	processOptions(tp, flags, normalized_ack_seq);
 
 	//If this packet does not contain an ack sequence number, reuse the previous max
-	std::cerr << "call Plugin::HooksetupAnalyzerTree - 2" << std::endl;	
+	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 2" << std::endl;	
 	if (!flags.ACK())
 		normalized_ack_seq = getHighestAck();
 
@@ -238,20 +238,20 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 	// TTLs from the initial SYN are unreliable; ignore those
 	// an endpoint's TTL is the TTL of packets from the endpoint, when they arrive at the measurement point
 	
-	std::cerr << "call Plugin::HooksetupAnalyzerTree - 3" << std::endl;		
+	std::cerr << "callTCPRS_Endpoint::ProcessSegment - 3" << std::endl;		
 	if (!(flags.SYN() && !flags.ACK()))
 		setTTL(ttl);
 
 	//Ensuring that FIN or SYN packets are not used
-	std::cerr << "call Plugin::HooksetupAnalyzerTree - 3-2" << std::endl;			
+	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 3-2" << std::endl;			
 	if (flags.ACK())
 	{
-			std::cerr << "call Plugin::HooksetupAnalyzerTree - 3-2-2" << std::endl;			
+			std::cerr << "call TCPRS_Endpoint::ProcessSegment - 3-2-2" << std::endl;			
 		processACK(normalized_ack_seq, len, flags, tp);
 	}
 
 	// the sequence number we want ACKed is different for FINs and SYNs
-	std::cerr << "call Plugin::HooksetupAnalyzerTree - 3-3" << std::endl;			
+	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 3-3" << std::endl;			
 	if (flags.FIN() || flags.SYN())
 		seq_to_insert++;
 
@@ -260,7 +260,7 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 	if (len > 0 || flags.SYN() || flags.FIN()) 
 	{
 
-		std::cerr << "call Plugin::HooksetupAnalyzerTree -(4)-1 " << std::endl;		
+		std::cerr << "call TCPRS_Endpoint::ProcessSegment -(4)-1 " << std::endl;		
 
 		// deletion of seq_range happens in TCPState_Endpoint::InsertSequenceNumber, if needed
 		SequenceRange *seq_range = new SequenceRange;
@@ -282,13 +282,13 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 			value->setRST();
 
 
-		std::cerr << "call Plugin::HooksetupAnalyzerTree -(4)-2 " << std::endl;		
+		std::cerr << "call TCPRS_Endpoint::ProcessSegment -(4)-2 " << std::endl;		
 
 		//This adds the sequence number to the range for inflight data
 		insertSequenceNumber(seq_range, value, sendTimestampVal,
 				normalized_ack_seq);
 
-		std::cerr << "call Plugin::HooksetupAnalyzerTree -(4)-3 " << std::endl;		
+		std::cerr << "call TCPRS_Endpoint::ProcessSegment -(4)-3 " << std::endl;		
 
 		setHighestSeq(seq_to_insert);
 	}
@@ -296,17 +296,17 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 	if (!flags.FIN() && !flags.SYN())
 		processOutstandingData(normalized_ack_seq);
 
-	std::cerr << "call Plugin::HooksetupAnalyzerTree -5 " << std::endl;		
+	std::cerr << "call TCPRS_Endpoint::ProcessSegment -5 " << std::endl;		
 
 	updatePrevWindow();
 
-	std::cerr << "call Plugin::HooksetupAnalyzerTree -6 " << std::endl;		
+	std::cerr << "call TCPRS_Endpoint::ProcessSegment -6 " << std::endl;		
 	updateLastSeqSent(seq_to_insert);
 	
-	std::cerr << "call Plugin::HooksetupAnalyzerTree -7 " << std::endl;		
+	std::cerr << "call TCPRS_Endpoint::ProcessSegment -7 " << std::endl;		
 	addTimeStamp(sendTimestampVal);
 	
-	std::cerr << "call Plugin::HooksetupAnalyzerTree -8 " << std::endl;		
+	std::cerr << "call TCPRS_Endpoint::ProcessSegment -8 " << std::endl;		
 	setHighestAck(normalized_ack_seq);
 }
 
@@ -2414,7 +2414,7 @@ void TCPRS_Endpoint::throwCongestionStateChangeEvent(CongestionState prev,
 void TCPRS_Endpoint::throwRetransmissionEvent(Segment* segment, uint32 seq,
 		RETRANSMISSION_REASON_CODE reason, RETRANSMISSION_TYPE_CODE rtype,
 		double confidence) {
-
+      cerr <<">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
 	if (TCPRS::conn_rexmit) {
 		double est_rtt = 0.0;
 		if (hasPathRTTEstimate())
