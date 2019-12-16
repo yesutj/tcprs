@@ -199,8 +199,7 @@ void TCPRS_Endpoint::DeliverSegment(int len, const u_char* data,
 void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 
 
-	std::cerr << "callTCPRS_Endpoint::ProcessSegment " << std::endl;
-
+	
 	const struct tcphdr* tp = (const struct tcphdr*) segment->tp;
 	TCP_Flags flags((const struct tcphdr*) segment->tp);   //Builds the TCPFlags
 	uint16 segmentID = segment->segmentID;
@@ -224,7 +223,6 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 	processOptions(tp, flags, normalized_ack_seq);
 
 	//If this packet does not contain an ack sequence number, reuse the previous max
-	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 2" << std::endl;	
 	if (!flags.ACK())
 		normalized_ack_seq = getHighestAck();
 
@@ -238,20 +236,16 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 	// TTLs from the initial SYN are unreliable; ignore those
 	// an endpoint's TTL is the TTL of packets from the endpoint, when they arrive at the measurement point
 	
-	std::cerr << "callTCPRS_Endpoint::ProcessSegment - 3" << std::endl;		
 	if (!(flags.SYN() && !flags.ACK()))
 		setTTL(ttl);
 
 	//Ensuring that FIN or SYN packets are not used
-	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 3-2" << std::endl;			
 	if (flags.ACK())
 	{
-			std::cerr << "call TCPRS_Endpoint::ProcessSegment - 3-2-2" << std::endl;			
 		processACK(normalized_ack_seq, len, flags, tp);
 	}
 
 	// the sequence number we want ACKed is different for FINs and SYNs
-	std::cerr << "call TCPRS_Endpoint::ProcessSegment - 3-3" << std::endl;			
 	if (flags.FIN() || flags.SYN())
 		seq_to_insert++;
 
@@ -260,8 +254,7 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 	if (len > 0 || flags.SYN() || flags.FIN()) 
 	{
 
-		std::cerr << "call TCPRS_Endpoint::ProcessSegment -(4)-1 " << std::endl;		
-
+	
 		// deletion of seq_range happens in TCPState_Endpoint::InsertSequenceNumber, if needed
 		SequenceRange *seq_range = new SequenceRange;
 		seq_range->min = normalized_seq_start;
@@ -282,31 +275,25 @@ void TCPRS_Endpoint::ProcessSegment(SegmentInfo *segment) {
 			value->setRST();
 
 
-		std::cerr << "call TCPRS_Endpoint::ProcessSegment -(4)-2 " << std::endl;		
-
+	
 		//This adds the sequence number to the range for inflight data
 		insertSequenceNumber(seq_range, value, sendTimestampVal,
 				normalized_ack_seq);
 
-		std::cerr << "call TCPRS_Endpoint::ProcessSegment -(4)-3 " << std::endl;		
-
+	
 		setHighestSeq(seq_to_insert);
 	}
 
 	if (!flags.FIN() && !flags.SYN())
 		processOutstandingData(normalized_ack_seq);
 
-	std::cerr << "call TCPRS_Endpoint::ProcessSegment -5 " << std::endl;		
-
+	
 	updatePrevWindow();
 
-	std::cerr << "call TCPRS_Endpoint::ProcessSegment -6 " << std::endl;		
 	updateLastSeqSent(seq_to_insert);
 	
-	std::cerr << "call TCPRS_Endpoint::ProcessSegment -7 " << std::endl;		
 	addTimeStamp(sendTimestampVal);
 	
-	std::cerr << "call TCPRS_Endpoint::ProcessSegment -8 " << std::endl;		
 	setHighestAck(normalized_ack_seq);
 }
 
@@ -469,8 +456,7 @@ void TCPRS_Endpoint::insertSequenceNumber(SequenceRange *sequence,
 		Segment *segment, uint32 ts, uint32 normalized_ack_seq) {
 
 
-    std::cerr << "TCPRS_Endpoint::insertSequenceNumber" << endl;
-	
+    
 	ASSERT(segment); ASSERT(sequence);
 
 	HashKey *h = new HashKey(sequence->to_ack);
@@ -2608,62 +2594,63 @@ void TCPRS_Endpoint::throwFastRecoveryTransmitEvent(uint32 seq) {
 void TCPRS_Endpoint::processACK(const uint32 normalizedAckSequence,
 		const uint32 len, TCP_Flags& flags, const struct tcphdr* tp) {
 
+	std::cerr << "TCPRS_Endpoint::processACK- 1" << std::endl;	
 	TCPRS_DEBUG_MSG(PEDANTIC, CAT_MISC,
 			"processing acknowledgement for sequence %u at time %f",
 			normalizedAckSequence, current_time);
 
-	std::cerr << "TCPRS_Endpoint::processACK - 1 " << std::endl;	
-	isDuplicateAck(normalizedAckSequence, len, flags.SYN(), flags.FIN());
+	bool bDuplicated = isDuplicateAck(normalizedAckSequence, len, flags.SYN(), flags.FIN());
 
-	std::cerr << "TCPRS_Endpoint::processACK - 2 " << std::endl;		
+	std::cerr << "TCPRS_Endpoint::processACK- DuplicatedAck " << bDuplicated << endl;	
+
+
 	ackTimestamps.addEntry(new double(current_time));
 	ackCount++; //Probably not necessary
 
 	// this is the syn-ack.  the normalized syn-ack seq# is always 1
-	std::cerr << "TCPRS_Endpoint::processACK - 3 " << std::endl;			
 	bool is_syn_ack = (!doneSYNACK() && normalizedAckSequence == 1);
 
 	if (is_syn_ack) {
-		std::cerr << "TCPRS_Endpoint::processACK - 4 " << std::endl;			
 		setDoneSYNACK(true);
 	}
 
-	std::cerr << "TCPRS_Endpoint::processACK - 5 " << std::endl;		
+	std::cerr << "TCPRS_Endpoint::processACK- 2" << std::endl;	
 	
 	if (normalizedAckSequence >= peer->getRecoverySeq()
-			&& peer->getRecoveryState() != RECOVERY_NORMAL) {
-
-	std::cerr << "TCPRS_Endpoint::processACK - 6 " << std::endl;		
-	
+			&& peer->getRecoveryState() != RECOVERY_NORMAL) 
+	{
+		std::cerr << "TCPRS_Endpoint::processACK-(3) " << std::endl;	
 		if (peer->getRecoveryState() == RECOVERY_RTO)
 			peer->setState(CONGESTION_SLOW_START);
 		TCPRS_DEBUG_MSG(LVL_1, CAT_RECOVERY, "restored normal state seq=%i ts=%f peer->recoveryseq=%i",
 				normalizedAckSequence, current_time, peer->getRecoverySeq());
+		std::cerr << "TCPRS_Endpoint::processACK-(3)-1 " << std::endl;	
 		peer->restoreNormalRecovery();
+	
 	}
 
 	//The packet up to normalized_ack_seq have made it to the endpoint and back
 	//to the observation point. This confirms receipt. Lets Ack the sequences.
 
-	std::cerr << "TCPRS_Endpoint::processACK - 7 " << std::endl;		
+	std::cerr << "TCPRS_Endpoint::processACK- 4" << std::endl;	
+
 	
 	Segment* segment = peer->acknowledgeSequences(normalizedAckSequence,current_time);
 	
 	if (segment != NULL) 
 	{
-		std::cerr << "TCPRS_Endpoint::processACK (8)- 1 " << std::endl;			
-		segment->setAckReceivedTime(current_time);
+		std::cerr << "TCPRS_Endpoint::processACK-(5)-1 " << std::endl;	
 
+		segment->setAckReceivedTime(current_time);
 		peer->recordValidRTTSample();
 		peer->updateRTT(segment->RTT());
 
 		//This endpoint is the source of the connection /defined as near_src
-		std::cerr << "TCPRS_Endpoint::processACK (8)- 2 " << std::endl;			
-		
+		std::cerr << "TCPRS_Endpoint::processACK- (5)-2 " << std::endl;	
+
 		if (hasPathRTTEstimate())
 			analyzer->EstimateMeasurementLocation();
 
-		std::cerr << "TCPRS_Endpoint::processACK (8)- 3 " << std::endl;					
 		delete segment;
 
 	}
@@ -2673,30 +2660,32 @@ void TCPRS_Endpoint::processACK(const uint32 normalizedAckSequence,
 	//  record an initial rtt if one endpoint had to retransmit a syn packet.
 	//  Only get the initial RTT from the originating endpoint so as to
 	//  eliminate noise from unidirectional connections
-	std::cerr << "TCPRS_Endpoint::processACK 9 " << std::endl;			
 		
 	if (doneSYNACK() && peer->doneSYNACK() && getHighestAck() >= 1
 			&& getState() == CONGESTION_3WHS && isOrig() &&
-			(getRTO() == 0 && peer->getRTO() == 0)) {
+			(getRTO() == 0 && peer->getRTO() == 0)) 
+	{
+
+		std::cerr << "TCPRS_Endpoint::processACK-(6)-1" << std::endl;	
+
+			
 		setState(CONGESTION_SLOW_START);
 
 		//The line below is an assumption that the other side receives the acknowledgement
 
-		std::cerr << "TCPRS_Endpoint::processACK (10)-1 " << std::endl;			
 	
 		peer->setState(CONGESTION_SLOW_START);
 	    if (hasPathRTTEstimate()) 
 		{
-			std::cerr << "TCPRS_Endpoint::processACK (11)-1 " << std::endl;				
+			std::cerr << "TCPRS_Endpoint::processACK- (6)-(2)-1 " << std::endl;	
 	    	val_list *vl = new val_list;
-
 	    	vl->append(analyzer->BuildConnVal());
 	    	vl->append(new Val(current_time, TYPE_TIME));
 	    	vl->append(new Val(getPathRTTEstimate(),TYPE_DOUBLE));
 	    	vl->append(new Val(isOrig(),TYPE_BOOL));
 
-			std::cerr << "TCPRS_Endpoint::processACK (11)-2 " << std::endl;			
 	    	analyzer->ConnectionEvent(TCPRS::conn_initial_rtt, vl);
+
 	
 	    }
 	}
