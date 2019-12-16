@@ -25,19 +25,19 @@ plugin::Configuration Plugin::Configure()
 void Plugin::HookSetupAnalyzerTree(Connection *conn)
 	{
 		
- 	// "Plugin::HooksetupAnalyzerTree-start" << endl;
+ 	cerr << "Plugin::HooksetupAnalyzerTree-start" << endl;
 	analyzer::tcp::TCP_Analyzer* tcp = 0;
 	analyzer::TransportLayerAnalyzer* root = 0;
 
 	if ( conn->ConnTransport() != TRANSPORT_TCP )
 	{
-	//	// cerr << "Plugin::HooksetupAnalyzerTree- not TCP" << endl;	
+		cerr << "Plugin::HooksetupAnalyzerTree- not TCP" << endl;	
 		return;
 	}
 
 	if ( ! use_tcprs_analyzer )
 	{
-	//	// cerr << "Plugin::HooksetupAnalyzerTree- NOT USE TCPRS ANALYZER" << endl;	
+		cerr << "Plugin::HooksetupAnalyzerTree- NOT USE TCPRS ANALYZER" << endl;	
 		return;
 	}
 
@@ -49,14 +49,14 @@ void Plugin::HookSetupAnalyzerTree(Connection *conn)
 
 	/* init the new analyzer */
 	tcprs->Init();
-	// cerr << "Plugin::HooksetupAnalyzerTree- Init New Analyzse" << endl;
+	cerr << "Plugin::HooksetupAnalyzerTree- Init New Analyzse" << endl;
 	
 	
 	}
 
 bool plugin::yesutj_TCPRS::EnableTCPRS()
 	{
-		// cerr << "Plugin::HooksetupAnalyzerTree-" << endl;	
+		cerr << "Plugin::HooksetupAnalyzerTree-" << endl;	
 		use_tcprs_analyzer = true;
 		return use_tcprs_analyzer;
 	}
