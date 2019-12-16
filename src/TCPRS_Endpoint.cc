@@ -2601,7 +2601,7 @@ void TCPRS_Endpoint::processACK(const uint32 normalizedAckSequence,
 
 	bool bDuplicated = isDuplicateAck(normalizedAckSequence, len, flags.SYN(), flags.FIN());
 
-	std::cerr << "TCPRS_Endpoint::processACK- DuplicatedAck. " << bDuplicated << endl;	
+	std::cout << "TCPRS_Endpoint::processACK- DuplicatedAck......" << bDuplicated << endl;	
 
 
 	ackTimestamps.addEntry(new double(current_time));
